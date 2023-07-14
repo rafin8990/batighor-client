@@ -68,6 +68,11 @@ const Navbar = () => {
                 <li className="text-gray-600 hover:text-blue-600">
                   <Link to="/allbooks">All Books</Link>
                 </li>
+                <li className="text-gray-600 hover:text-blue-600">
+                  <button className="btn btn-primary">
+                    <Link to="/login">Login</Link>
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
