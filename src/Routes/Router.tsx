@@ -5,6 +5,7 @@ import AllBooks from "../Pages/AllBooks/AllBooks";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import NotFound from "../Pages/NotFound/NotFound";
+import AddBooks from "../Pages/AddBooks/AddBooks";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Register></Register>,
+      },
+      {
+        path: "/addbooks",
+        element: <AddBooks></AddBooks>,
       },
       {
         path: "*",

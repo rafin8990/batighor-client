@@ -1,12 +1,19 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+
+interface SignupFormInputs {
+  name: string;
+  email: string;
+  password: string;
+}
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const handleRegister = (data) => {
+  } = useForm<SignupFormInputs>();
+  const handleRegister = (data: SignupFormInputs) => {
     console.log(data);
   };
   return (
