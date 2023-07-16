@@ -1,12 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../Redux/hook";
+import { loginUser } from "../../Redux/Features/userSlice";
 
 interface LoginFormInputs {
   email: string;
   password: string;
 }
 const Login = () => {
+  const { user, isLoading } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -14,8 +28,14 @@ const Login = () => {
   } = useForm<LoginFormInputs>();
 
   const handleLogin = (data: LoginFormInputs) => {
+    dispatch(loginUser({ email: data.email, password: data.password }));
     console.log(data);
   };
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate(from, { replace: true });
+    }
+  }, [user.email, isLoading, from]);
   return (
     <div>
       <div className="min-h-screen flex justify-center items-center">
@@ -27,7 +47,7 @@ const Login = () => {
             <h2 className="text-4xl text-center font-bold">Login</h2>
           </div>
           <div>
-            <p className=" my-2 text-white">Email:</p>
+            <p className=" my-2 ">Email:</p>
             <input
               {...register("email", { required: "email is required" })}
               type="email"
@@ -39,7 +59,7 @@ const Login = () => {
             )}
           </div>
           <div>
-            <p className=" my-2 text-white">Password:</p>
+            <p className=" my-2 ">Password:</p>
             <input
               {...register("password", { required: "Password is required" })}
               type="Password"

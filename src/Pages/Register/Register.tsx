@@ -1,21 +1,50 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../Redux/hook";
 
+import { createUser } from "../../Redux/Features/userSlice";
 interface SignupFormInputs {
-  name: string;
   email: string;
   password: string;
 }
+
 const Register = () => {
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignupFormInputs>();
-  const handleRegister = (data: SignupFormInputs) => {
+
+  const handleRegister = async (data: SignupFormInputs) => {
     console.log(data);
+    try {
+      await dispatch(
+        createUser({ email: data.email, password: data.password })
+      );
+      setRegistrationSuccess(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  useEffect(() => {
+    if (registrationSuccess) {
+      navigate(from, { replace: true }); // Redirect to the desired path
+    }
+  }, [registrationSuccess, navigate, from]);
+
   return (
     <div className="min-h-screen flex justify-center items-center">
       <form
@@ -26,17 +55,7 @@ const Register = () => {
           <h2 className="text-4xl text-center font-bold">Sign Up</h2>
         </div>
         <div>
-          <p className=" my-2 text-white">Name:</p>
-          <input
-            {...register("name", { required: "Name is required" })}
-            type="text"
-            placeholder="Enter Name"
-            className="input input-bordered w-full"
-          />
-          {errors.name && <p className="text-black">{errors.name?.message}</p>}
-        </div>
-        <div>
-          <p className=" my-2 text-white">Email:</p>
+          <p className=" my-2 "> Email: </p>
           <input
             {...register("email", { required: "email is required" })}
             type="email"
@@ -48,7 +67,7 @@ const Register = () => {
           )}
         </div>
         <div>
-          <p className=" my-2 text-white">Password:</p>
+          <p className=" my-2 "> Password: </p>
           <input
             {...register("password", { required: "Password is required" })}
             type="Password"

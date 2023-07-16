@@ -1,7 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../Redux/hook";
+import { signOut } from "firebase/auth";
+import { setUser } from "../../Redux/Features/userSlice";
+import { auth } from "../../Firebase/Firebase";
 
 const Navbar = () => {
+  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    console.log("Logout");
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(setUser(null));
+    });
+  };
   const [navbar, setNavbar] = useState(false);
   return (
     <div>
@@ -68,14 +82,26 @@ const Navbar = () => {
                 <li className="text-gray-600 hover:text-blue-600">
                   <Link to="/allbooks">All Books</Link>
                 </li>
-                <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/addbooks">Add Books</Link>
-                </li>
-                <li className="text-gray-600 hover:text-blue-600">
-                  <button className="btn btn-primary">
-                    <Link to="/login">Login</Link>
-                  </button>
-                </li>
+                {user.email && (
+                  <li className="text-gray-600 hover:text-blue-600">
+                    <Link to="/addbooks">Add Books</Link>
+                  </li>
+                )}
+
+                {!user.email && (
+                  <li className="text-gray-600 hover:text-blue-600">
+                    <button className="btn btn-primary">
+                      <Link to="/login">Login</Link>
+                    </button>
+                  </li>
+                )}
+                {user.email && (
+                  <li className="text-gray-600 hover:text-blue-600">
+                    <button onClick={handleLogout} className="btn btn-error">
+                      Log out
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
