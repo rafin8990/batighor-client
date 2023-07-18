@@ -124,6 +124,26 @@ const BookDetails = () => {
           to add a Review
         </p>
       )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5">
+        {review.map((rev, i) => (
+          <div className="border rounded-xl p-5" key={i}>
+            <div>
+              <div className="flex items-center">
+                <img
+                  className="w-12"
+                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  alt=""
+                />
+                <p>Email: {rev.email}</p>
+              </div>
+            </div>
+            <div>
+              <p>"{rev.review}"</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
