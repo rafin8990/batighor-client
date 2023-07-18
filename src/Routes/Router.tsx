@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layouts/Main/Main";
 import Home from "../Pages/HomePage/Home";
@@ -7,6 +8,7 @@ import Register from "../Pages/Register/Register";
 import NotFound from "../Pages/NotFound/NotFound";
 import AddBooks from "../Pages/AddBooks/AddBooks";
 import PrivateRoute from "./PrivateRoute";
+import BookDetails from "../Pages/BookDetails/BookDetails";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
       {
         path: "/allbooks",
         element: <AllBooks></AllBooks>,
+      },
+      {
+        path: "/book/:id",
+        element: <BookDetails></BookDetails>,
+        loader: ({ params }) =>
+          fetch(
+            `http://localhost:5000/api/v1/books//getSingle-book/${params.id}`
+          ),
       },
       {
         path: "/login",

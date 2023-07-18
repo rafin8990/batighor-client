@@ -7,7 +7,4 @@ const bookSlice = createSlice({
   initialState,
   reducers: {},
 });
-
-export const {} = bookSlice.actions;
-
 export default bookSlice.reducer;

@@ -8,19 +8,23 @@ import { usePostBookMutation } from "../../Redux/Features/api/apiSlice";
 import "./AddBook.css";
 import { useAppSelector } from "../../Redux/hook";
 import { useNavigate } from "react-router-dom";
+interface ReviewObject {
+  email: string;
+  review: string;
+}
 
 export type IBooks = {
   title: string;
   imageUrl: string;
   author: string;
   genre: string;
-  publicationDate: string;
+  publicationDate: number;
   email: string | null;
   time: string;
   wishlist: boolean;
   reading: boolean;
   finished: boolean;
-  review: string[];
+  review: ReviewObject[];
 };
 const AddBooks = () => {
   const [postBook, { isError, isLoading }] = usePostBookMutation();
@@ -125,12 +129,12 @@ const AddBooks = () => {
           />
         </div>
         <div>
-          <p className="my-2">Publication Date</p>
+          <p className="my-2">Publication Year</p>
           <input
             name="publication"
             className="input input-bordered w-full  mx-2"
             placeholder="Publication Date"
-            type="text"
+            type="number"
           />
         </div>
         <div>

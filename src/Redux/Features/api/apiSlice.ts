@@ -20,7 +20,15 @@ export const api = createApi({
         body: data,
       }),
     }),
+    postComment: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/addComment/${id}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery, usePostBookMutation } = api;
+export const { useGetBooksQuery, usePostBookMutation, usePostCommentMutation } =
+  api;

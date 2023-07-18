@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../Redux/hook";
 import Header from "./Header";
 import { useEffect } from "react";
 import { auth } from "../../Firebase/Firebase";
+import Book from "./Book";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const Home = () => {
     <div>
       <div>
         <Header></Header>
+        <Book></Book>
       </div>
     </div>
   );
