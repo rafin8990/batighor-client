@@ -9,6 +9,7 @@ import NotFound from "../Pages/NotFound/NotFound";
 import AddBooks from "../Pages/AddBooks/AddBooks";
 import PrivateRoute from "./PrivateRoute";
 import BookDetails from "../Pages/BookDetails/BookDetails";
+import UpdateBook from "../Pages/UpdateBook/UpdateBook";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,15 @@ const router = createBrowserRouter([
         element: <BookDetails></BookDetails>,
         loader: ({ params }) =>
           fetch(
-            `http://localhost:5000/api/v1/books//getSingle-book/${params.id}`
+            `http://localhost:5000/api/v1/books/getSingle-book/${params.id}`
+          ),
+      },
+      {
+        path: "/updateBook/:id",
+        element: <UpdateBook></UpdateBook>,
+        loader: ({ params }) =>
+          fetch(
+            `http://localhost:5000/api/v1/books/getSingle-book/${params.id}`
           ),
       },
       {

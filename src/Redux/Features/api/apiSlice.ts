@@ -10,9 +10,13 @@ export const api = createApi({
     getBooks: builder.query({
       query: () => "/get-book",
     }),
+    getSearchValue: builder.query({
+      query: (searchTerm) => `/get-book?searchTerm=${searchTerm}`,
+    }),
     getSingleBook: builder.query({
       query: (id) => `/getSingle-book/${id}`,
     }),
+
     postBook: builder.mutation({
       query: (data) => ({
         url: `/create-book`,
@@ -27,8 +31,17 @@ export const api = createApi({
         body: data,
       }),
     }),
+    getReview: builder.query({
+      query: (id) => `/getComment/${id}`,
+    }),
   }),
 });
 
-export const { useGetBooksQuery, usePostBookMutation, usePostCommentMutation } =
-  api;
+export const {
+  useGetBooksQuery,
+  useGetSingleBookQuery,
+  usePostBookMutation,
+  usePostCommentMutation,
+  useGetReviewQuery,
+  useGetSearchValueQuery,
+} = api;

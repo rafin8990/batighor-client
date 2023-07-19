@@ -98,6 +98,7 @@ const AddBooks = () => {
             name="title"
             className="input input-bordered w-full mx-2"
             placeholder="Enter Book Title"
+            required
             type="text"
           />
         </div>
@@ -107,6 +108,7 @@ const AddBooks = () => {
             name="imageUrl"
             className="input input-bordered w-full  mx-2"
             placeholder="Enter Image Url"
+            required
             type="text"
           />
         </div>
@@ -116,6 +118,7 @@ const AddBooks = () => {
             name="author"
             className="input input-bordered w-full  mx-2"
             placeholder="Enter Author Name"
+            required
             type="text"
           />
         </div>
@@ -125,6 +128,7 @@ const AddBooks = () => {
             name="genre"
             className="input input-bordered w-full mx-2"
             placeholder="Enter Genre"
+            required
             type="text"
           />
         </div>
@@ -134,6 +138,7 @@ const AddBooks = () => {
             name="publication"
             className="input input-bordered w-full  mx-2"
             placeholder="Publication Date"
+            required
             type="number"
           />
         </div>

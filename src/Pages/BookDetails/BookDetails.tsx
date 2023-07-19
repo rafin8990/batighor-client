@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -9,14 +10,16 @@
 import { useEffect } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux/hook";
-import { usePostCommentMutation } from "../../Redux/Features/api/apiSlice";
+import {
+  useGetReviewQuery,
+  usePostCommentMutation,
+} from "../../Redux/Features/api/apiSlice";
 import { setLoading, setUser } from "../../Redux/Features/userSlice";
 import { auth } from "../../Firebase/Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 const BookDetails = () => {
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     dispatch(setLoading(true));
 
@@ -30,14 +33,12 @@ const BookDetails = () => {
     });
   }, [dispatch]);
 
-  const book = useLoaderData();
-  const [postComment, { isLoading, isError, isSuccess }] =
-    usePostCommentMutation();
+  // const { id } = useParams();
+  // const { data } = useGetSingleBookQuery(id);
 
-  console.log(isLoading);
-  console.log(isError);
-  console.log(isSuccess);
+  const [postComment] = usePostCommentMutation();
   const { user } = useAppSelector((state) => state.user);
+  const book = useLoaderData();
   const {
     _id,
     title,
@@ -45,10 +46,9 @@ const BookDetails = () => {
     publicationDate,
     genre,
     imageUrl,
-    review,
+
     email,
   } = book?.data;
-  console.log(review);
 
   const handleAddreview = (event: {
     target: any;
@@ -67,9 +67,14 @@ const BookDetails = () => {
       id: _id,
       data: reviewData,
     };
-    console.log(option);
     postComment(option);
+    form.reset();
   };
+
+  const { data } = useGetReviewQuery(_id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 1000,
+  });
 
   return (
     <div className="mb-5 mt-5 mx-5 border p-5">
@@ -126,7 +131,7 @@ const BookDetails = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-5">
-        {review.map((rev, i) => (
+        {data?.data?.review.map((rev, i) => (
           <div className="border rounded-xl p-5" key={i}>
             <div>
               <div className="flex items-center">

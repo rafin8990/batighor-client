@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 const BookCard = ({ book }) => {
-  console.log(book);
   return (
     <div className="mb-5">
       <div className="card w-96 h-[600px] bg-base-100 shadow-xl">
