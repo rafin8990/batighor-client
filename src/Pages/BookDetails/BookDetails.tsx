@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 /* eslint-disable @typescript-eslint/no-floating-promises */
@@ -7,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux/hook";
 import {
@@ -34,7 +35,8 @@ const BookDetails = () => {
   }, [dispatch]);
 
   // const { id } = useParams();
-  // const { data } = useGetSingleBookQuery(id);
+  // const { data: bookData } = useGetSingleBookQuery(id);
+  // console.log(bookData);
 
   const [postComment] = usePostCommentMutation();
   const { user } = useAppSelector((state) => state.user);
@@ -58,6 +60,7 @@ const BookDetails = () => {
     const form = event.target;
     const email = user?.email;
     const review = form.review.value;
+
     const reviewData = {
       email,
       review,
@@ -69,6 +72,17 @@ const BookDetails = () => {
     };
     postComment(option);
     form.reset();
+  };
+  const handleDelete = async (id: string) => {
+    await fetch(`http://localhost:5000/api/v1/books/deleteBook/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 1) {
+          alert("book Deleted SuccessFully");
+        }
+      });
   };
 
   const { data } = useGetReviewQuery(_id, {
@@ -94,7 +108,10 @@ const BookDetails = () => {
               <Link to={`/updateBook/${_id}`}>
                 <button className="text-md btn btn-success">Edit Book</button>
               </Link>
-              <button className="text-md mx-2 btn btn-error">
+              <button
+                onClick={() => handleDelete(_id)}
+                className="text-md mx-2 btn btn-error"
+              >
                 Delete Book
               </button>
             </div>
@@ -108,10 +125,11 @@ const BookDetails = () => {
             Add a Review
           </p>
           <div className="flex justify-center mx-2">
-            <form onSubmit={handleAddreview}>
+            <form className="flex" onSubmit={handleAddreview}>
               <input
                 name="review"
-                className="input input-bordered w-80"
+                className="input input-bordered w-60 md:w-80"
+                required
                 type="text"
               />
               <button type="submit" className="btn btn-primary">

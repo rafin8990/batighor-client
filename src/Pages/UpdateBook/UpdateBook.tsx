@@ -1,14 +1,65 @@
-import { Toaster } from "react-hot-toast";
-import { useLoaderData } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useUpdateBookMutation } from "../../Redux/Features/api/apiSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 const UpdateBook = () => {
   const book = useLoaderData();
-  console.log(book?.data);
-  const {} = book?.data;
+  const navigate = useNavigate();
+  const [updatedData, { status }] = useUpdateBookMutation();
+  console.log(status);
+
   const handleUpdateBook = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+
+    const form = event.target;
+    const title = form.title.value ? form.title.value : book?.data?.title;
+    const imageUrl = form.imageUrl.value
+      ? form.imageUrl.value
+      : book?.data?.imageUrl;
+    const author = form.author.value ? form.author.value : book?.data?.author;
+    const genre = form.genre.value ? form.genre.value : book?.data?.genre;
+    const publicationDate = form.publication.value
+      ? form.publication.value
+      : book?.data?.publicationDate;
+    const email = book?.data?.email;
+    const wishlist = false;
+    const reading = false;
+    const finished = false;
+    const time = book?.data?.time;
+
+    const updateData = {
+      title,
+      imageUrl,
+      author,
+      genre,
+      email,
+      publicationDate,
+      wishlist,
+      reading,
+      finished,
+      time,
+    };
+
+    const option = {
+      id: book?.data?._id,
+      data: updateData,
+    };
+
+    updatedData(option);
+    if (status) {
+      form.reset();
+      alert("Book Updated Successfully");
+      navigate(`/book/${book?.data?._id}`);
+    }
   };
-  console.log(book);
+
   return (
     <div className="min-h-screen">
       <div className="flex justify-center items-center mt-5">
@@ -61,7 +112,7 @@ const UpdateBook = () => {
             <p className="my-2">Publication Year</p>
             <input
               name="publication"
-              className="input input-bordered w-full  mx-2"
+              className="input input-bordered md:w-full  mx-2"
               placeholder="Publication Date"
               type="number"
             />
@@ -69,7 +120,7 @@ const UpdateBook = () => {
           <div>
             <button className="btn btn-primary w-full my-3">Submit</button>
           </div>
-          <Toaster></Toaster>
+          <ToastContainer></ToastContainer>
         </form>
       </div>
     </div>

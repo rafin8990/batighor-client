@@ -34,6 +34,13 @@ export const api = createApi({
     getReview: builder.query({
       query: (id) => `/getComment/${id}`,
     }),
+    updateBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/updateBook/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -44,4 +51,5 @@ export const {
   usePostCommentMutation,
   useGetReviewQuery,
   useGetSearchValueQuery,
+  useUpdateBookMutation,
 } = api;
