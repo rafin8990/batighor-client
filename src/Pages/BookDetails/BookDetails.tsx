@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useEffect, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux/hook";
 import {
   useGetReviewQuery,
@@ -21,6 +21,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const BookDetails = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(setLoading(true));
 
@@ -74,15 +75,18 @@ const BookDetails = () => {
     form.reset();
   };
   const handleDelete = async (id: string) => {
-    await fetch(`http://localhost:5000/api/v1/books/deleteBook/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount > 1) {
-          alert("book Deleted SuccessFully");
-        }
-      });
+    if (confirm("Are You sure that you want to delete the book permenently?")) {
+      await fetch(`http://localhost:5000/api/v1/books/deleteBook/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount > 1) {
+            alert("book Deleted SuccessFully");
+            navigate("/");
+          }
+        });
+    }
   };
 
   const { data } = useGetReviewQuery(_id, {
