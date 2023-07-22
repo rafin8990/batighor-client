@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/require-await */
@@ -75,7 +76,7 @@ const AddBooks = () => {
       console.log(bookData);
       postBook({ data: bookData });
       toast.success("Book added successfully!");
-      navigate("/allbooks");
+      form.reset();
     } catch (error) {
       console.log(error);
       toast.error("An error occurred while adding the book.");

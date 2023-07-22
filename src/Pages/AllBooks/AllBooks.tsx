@@ -14,6 +14,7 @@ const AllBooks = () => {
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const { data } = useGetSearchValueQuery(search);
+  console.log(data?.meta);
   // const { data } = useGetBooksQuery(undefined);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ const AllBooks = () => {
           <BookCard key={book._id} book={book}></BookCard>
         ))}
       </div>
+      <div></div>
     </div>
   );
 };
