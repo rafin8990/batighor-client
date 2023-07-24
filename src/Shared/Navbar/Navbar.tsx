@@ -87,6 +87,11 @@ const Navbar = () => {
                     <Link to="/addbooks">Add Books</Link>
                   </li>
                 )}
+                {user.email && (
+                  <li className="text-gray-600 hover:text-blue-600">
+                    <Link to="/wishlist">Wishlist</Link>
+                  </li>
+                )}
 
                 {!user.email && (
                   <li className="text-gray-600 hover:text-blue-600">

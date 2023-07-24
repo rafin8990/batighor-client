@@ -12,6 +12,9 @@ const BookCard = ({ book }) => {
           <img className="w-1/2" src={book.imageUrl} alt="Shoes" />
         </figure>
         <div className="card-body">
+          <button disabled={book?.wishlist} className="btn btn-sm ">
+            Add to Wishlist
+          </button>
           <h2 className="card-title">{book.title}</h2>
           <p className="font-semibold text-lg">Author: {book.author}</p>
           <p>Genre: {book.genre}</p>
