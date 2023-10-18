@@ -6,6 +6,8 @@ import Header from "./Header";
 import { useEffect } from "react";
 import { auth } from "../../Firebase/Firebase";
 import Book from "./Book";
+import ExtraSection from "./ExtraSection";
+import Library from "./Library";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +29,8 @@ const Home = () => {
       <div>
         <Header></Header>
         <Book></Book>
+        <ExtraSection></ExtraSection>
+        <Library></Library>
       </div>
     </div>
   );

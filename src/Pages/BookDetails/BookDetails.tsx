@@ -101,7 +101,7 @@ const BookDetails = () => {
           <img className="" src={imageUrl} alt="" />
         </div>
         <div className="lg:mx-10">
-          <button className="btn btn-sm ">Add to Wishlist</button>
+          <button  className="btn btn-sm ">Add to Wishlist</button>
           <h1 className="text-xl md:text-4xl font font-bold">Title: {title}</h1>
           <p className="text-lg font-semibold">Author: {author}</p>
           <p className="text-lg font-semibold">Genre: {genre}</p>
